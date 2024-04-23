@@ -1,0 +1,55 @@
+
+<div class="main-block">
+<div class="left-part">
+ 
+<form method="post" action="/blogposts" class="siteForm" enctype="multipart/form-data">
+
+
+<h1>Kirjoita blogiin</h1><br>
+    <div class="info" >
+    <input class="addPost" type="text" name="author" placeholder="Nimi"><br><br>
+    <input class="addPost"  type="text" name="email" placeholder="Email"><br>    
+    <label for="date"></label><br>
+    <input class="addPost" type="date" name="date"><br><br>
+
+
+    <p>Otsikko</p>
+    <div>
+    <textarea class="addPost" name="title" rows="1" ></textarea>
+    </div>
+    <p>Kirjoita blogiteksti</p>
+    <div>
+    <textarea class="addPost" name="body" rows="6"></textarea>
+    </div><br>
+
+
+  <fieldset>
+    <legend>Valitse kategoria</legend>
+    <label><input type="radio" name="radio" value="Eurooppa" /> Eurooppa</label>
+    <label><input type="radio" name="radio" value="Aasia" /> Aasia</label>
+    <label><input type="radio" name="radio" value="Afrikka" /> Afrikka</label><br>
+    <label><input type="radio" name="radio" value="Oseania" /> Oseania</label>
+    <label><input type="radio" name="radio" value="Etelä-Amerikka" /> Etelä-Amerikka</label><br>
+    <label><input type="radio" name="radio" value="Pohjois-Amerikka" /> Pohjois-Amerikka</label>
+  </fieldset><br>
+
+    </div>
+
+    <div>
+    <input type="file" accept="image/*" name="myImage" id="file" onchange="loadFile(event)" style="display: none;">
+    <label for="file" style="cursor: pointer;">Upload Image</label>
+    <img id="output" width="200" />
+</div><br>
+
+<script>
+    var loadFile = function(event) {
+        var image = document.getElementById('output');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
+
+    <button name="AddArticle">Lisää artikkeli</button>
+
+        </div>
+ </form>
+      

@@ -1,0 +1,90 @@
+
+<div class="sidenav">
+  <a href="/blogposts">Kaikki blogipostaukset</a><br>
+  <a href="/blogposts/Eurooppa">Eurooppa</a><br>
+  <a href="/blogposts/Aasia">Aasia</a><br>
+  <a href="/blogposts/Afrikka">Afrikka</a><br>
+  <a href="/blogposts/Oseania">Oseania</a><br>
+  <a href="/blogposts/Pohjois-Amerikka">Pohjois-Amerikka</a><br>
+  <a href="/blogposts/Etelä-Amerikka">Etelä-Amerikka</a><br>
+</div>
+
+
+<div class="main">
+
+<h1>{{title}}</h1>
+<div class="posts">
+  {{#each blogposts}}
+    <div class='card'>
+      <div>
+        <p class="continent"><br>{{this.radio}}</p>
+        <h2>{{this.title}}</h2>
+        <p class="date">{{this.date}}</p>
+        <p class='blogpost'>{{this.body}}</p>
+        <img src="{{this.image}} " height="600" width="600" alt="Blog post image"><br>
+        <p>Kirjoittaja: {{this.author}}<br>
+          {{this.email}}<br />
+        </p>
+      </div>
+      <div><br>
+         <button onclick="handleDelete('{{this._id}}')">Poista</button>
+        
+      </div><br>
+      <!--KOMMENTTIOSIO start -->
+        <div class='comments'>
+          <h3>KOMMENTIT</h3>
+          <div id='comments{{this._id}}'></div>
+          <textarea id='newComment{{this._id}}' placeholder='lisää kommentti'></textarea> <br>
+          <button onclick="handleComment('{{this._id}}')">Lisää Kommentti</button>
+        </div>
+
+      <!--KOMMENTTIOSIO END -->
+    </div>
+  {{/each}}
+</div>
+
+</div>
+
+<script>
+   function handleDelete(id){
+      if (confirm('Haluatko varmasti poistaa tämän blogipostauksen?')){
+         console.log(id);
+         const deleteURL=`/blogposts/delete?id=${id}`;
+         window.location=deleteURL;
+      }
+   }
+
+function handleComment(_id) {
+  // kommentti otetaan
+  const commentText = document.getElementById('newComment' + _id);
+
+ //domin manipulointi ensin sitten vasta FETCH
+  const newComment = document.createElement('div');
+  newComment.textContent = commentText.value;
+
+  const commentsDiv = document.getElementById('comments' + _id);
+  commentsDiv.appendChild(newComment);
+
+  // dataan kommentti sekä mongoDB:stä ObjectID
+  const data = { body: commentText.value, _id };
+
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  };
+
+  fetch('/comments/' + _id, options)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      // tekstit pois tekstiareasta
+      commentText.value = '';
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+
+</script>
